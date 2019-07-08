@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dog_model.dart';
 import 'dog_list.dart';
+import 'new_dog_form.dart';
+
 
 void main() => runApp(MyApp());
 
@@ -33,6 +35,20 @@ class _MyHomePageState extends State<MyHomePage> {
     ..add(new Dog('Herbert', 'Dallas, TX, USA', 'A Very Good Boy'))
     ..add(new Dog('Buddy', 'North Pole, Earth', 'A Very Good Boy'));
 
+  Future _showNewDogForm() async {
+    Dog newDog = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (BuildContext context) {
+          return AddDogFormPage();
+        },
+      ),
+    );
+
+    if (newDog != null) {
+      initialDoggos.add(newDog);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -46,6 +62,12 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: _showNewDogForm,
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
